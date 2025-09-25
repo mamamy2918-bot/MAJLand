@@ -1,1 +1,1 @@
-# MAJLand
+This folder contains the built output assets for the worker "maj-author-backend" generated at 2025-09-25T20:43:59.052Z.

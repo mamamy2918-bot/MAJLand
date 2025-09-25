@@ -1,0 +1,12 @@
+{
+  "ai_config": {
+    "social_card_generator": {
+      "model": "gpt-image-1",
+      "size": "1024x1024",
+      "quality": "high",
+      "response_format": "b64_json",
+      "n": 1,
+      "prompt_template": "Create a professional social media preview card for ${website_type}. Style: ${style_description}. Colors: ${color_scheme}. Text elements: ${text_elements}. Layout: ${layout_description}. Make it engaging and branded."
+    }
+  }
+}
