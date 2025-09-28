@@ -618,6 +618,33 @@
       gap: 16px;
       flex-wrap: wrap;
       margin-top: 32px;
+      align-items: center;
+    }
+
+    .book-price-note {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.15);
+      min-width: 200px;
+    }
+
+    .book-price {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .book-signed-copy {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      max-width: 260px;
     }
 
     /* Pictures Gallery */
@@ -1662,6 +1689,10 @@
             </div>
             
             <div class="book-actions">
+              <div class="book-price-note">
+                <p class="book-price">$20.00</p>
+                <p class="book-signed-copy">Order directly through MAJ to receive a signed copy.</p>
+              </div>
               <a href="https://www.amazon.com/dp/B0CWLQDBSW/ref=cm_sw_r_cso_sms_bks_apin_dp_4T4AZQQTSMFZR5WR15KZ?cspi=63f1afeb001caf291e7e7ceaa2e621eb0a1b168e3c579a66843730fcf5eb9b5240d8d41ddbf0b45ab5ee6741f2c7e7e4caf924c9510801be8fe2a199d8faa359" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Order on Amazon</a>
               <a href="https://cash.app/$MAJtheAuthor92" class="btn btn-primary" target="_blank" rel="noopener noreferrer">💳 Cash App</a>
               <a href="https://venmo.com/u/MAJtheauthor" class="btn btn-primary" target="_blank" rel="noopener noreferrer">💸 Venmo</a>
