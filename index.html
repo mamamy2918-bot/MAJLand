@@ -405,6 +405,10 @@
       animation: fadeInUp 0.8s ease forwards;
     }
 
+    .section-header.align-left {
+      text-align: left;
+    }
+
     .section-title {
       font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
       font-size: 2.5rem;
@@ -431,11 +435,26 @@
       border-radius: 2px;
     }
 
+    .section-title.align-left {
+      text-align: left;
+    }
+
+    .section-title.align-left::after {
+      left: 0;
+      transform: none;
+    }
+
     .section-subtitle {
       font-size: 1.1rem;
       color: var(--text-secondary);
       max-width: 600px;
       margin: 0 auto;
+    }
+
+    .section-subtitle.align-left {
+      text-align: left;
+      margin-left: 0;
+      margin-right: auto;
     }
 
     /* About Section */
@@ -479,20 +498,30 @@
     /* Book Section */
     .book-showcase {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 60px;
+      align-items: start;
     }
 
-    .book-cover {
-      position: relative;
+    .book-intro {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .book-intro .section-subtitle {
+      max-width: none;
+    }
+
+    .book-intro .book-cover {
       opacity: 0;
       animation: fadeInUp 0.8s ease forwards;
+      max-width: 420px;
     }
 
-    .book-cover img {
+    .book-intro .book-cover img {
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
       height: auto;
       border-radius: 12px;
       box-shadow: 
@@ -504,9 +533,22 @@
       perspective: 1000px;
     }
 
-    .book-cover {
+    .book-intro .book-cover {
       perspective: 1000px;
       position: relative;
+    }
+
+    .book-intro .book-cover:hover img {
+      transform: rotateY(-4deg) rotateX(1deg) translateZ(15px) scale(1.08);
+      box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.5),
+        0 0 80px rgba(220, 38, 38, 0.3),
+        inset 0 0 30px rgba(212, 175, 55, 0.1);
+    }
+
+    .book-info {
+      opacity: 0;
+      animation: fadeInRight 0.8s ease forwards 0.3s;
     }
 
     .book-cover:hover img {
@@ -612,34 +654,11 @@
       height: 250px;
       object-fit: cover;
       transition: transform 0.3s ease;
+      cursor: pointer;
     }
 
     .gallery-item:hover img {
-      transform: scale(1.1);
-    }
-
-    .gallery-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(45, 41, 38, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .gallery-item:hover .gallery-overlay {
-      opacity: 1;
-    }
-
-    .gallery-overlay p {
-      color: white;
-      font-weight: 500;
-      text-align: center;
+      transform: scale(1.08);
     }
 
     /* Supporters Section */
@@ -803,6 +822,139 @@
     .supporter-preview-remove:hover {
       color: var(--text-primary);
       border-color: var(--text-accent);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      z-index: 3000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 85vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .lightbox-image {
+      max-width: 100%;
+      max-height: 75vh;
+      border-radius: 12px;
+      box-shadow: var(--shadow-hover);
+      object-fit: contain;
+    }
+
+
+    .lightbox-close {
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .lightbox-arrow {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      pointer-events: auto;
+    }
+
+    .lightbox-arrow:hover {
+      background: rgba(0, 0, 0, 0.75);
+    }
+
+    .lightbox-thumbnails {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .lightbox-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: border 0.3s ease, transform 0.3s ease;
+    }
+
+    .lightbox-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .lightbox-thumb.is-active {
+      border-color: var(--text-accent);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .lightbox {
+        padding: 20px;
+      }
+
+      .lightbox-close {
+        top: -20px;
+        right: -20px;
+      }
+
+      .lightbox-thumb {
+        width: 48px;
+        height: 48px;
+      }
     }
 
     .supporter-form button {
@@ -1058,6 +1210,20 @@
         grid-template-columns: 1fr;
         gap: 40px;
         text-align: center;
+      }
+
+      .book-intro, .book-info {
+        align-items: center;
+      }
+
+      .book-intro .section-title,
+      .book-intro .section-subtitle {
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      .book-intro .book-cover {
+        margin: 0 auto;
       }
 
       .gallery-grid {
@@ -1456,13 +1622,13 @@
 
     <section id="book" class="book fade-in-section">
       <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Latest Work</h2>
-          <p class="section-subtitle">A passionate exploration of modern love, desire, and the courage to be vulnerable.</p>
-        </div>
         <div class="book-showcase">
-          <div class="book-cover">
-            <img src="new-book-cover.jpeg" alt="Anticipation: Love Me, Lust Me, But Don't Lose Me book cover - MAJ Logo Design">
+          <div class="book-intro">
+            <h2 class="section-title align-left">Latest Work</h2>
+            <p class="section-subtitle align-left">A passionate exploration of modern love, desire, and the courage to be vulnerable.</p>
+            <div class="book-cover">
+              <img src="new-book-cover.jpeg" alt="Anticipation: Love Me, Lust Me, But Don't Lose Me book cover - MAJ Logo Design">
+            </div>
           </div>
           <div class="book-info">
             <h3 class="book-title">Anticipation: Love Me, Lust Me, But Don't Lose Me</h3>
@@ -1527,86 +1693,125 @@
           <h2 class="section-title">Gallery</h2>
           <p class="section-subtitle">Glimpses into the world that inspires my stories.</p>
         </div>
-        <div class="gallery-grid">
-          <div class="gallery-item">
+        <div class="gallery-grid" id="galleryGrid">
+          <div class="gallery-item" data-index="0">
             <img src="yh8yrf27ya.jpeg" alt="Book signing event at bookstore">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="1">
             <img src="2ebyv0lk9k.jpeg" alt="Professional author portrait">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="2">
             <img src="v7pcp2d3fg.jpeg" alt="Reading my book at home">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="3">
             <img src="20kgmaniqg.jpeg" alt="Author event photo">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="4">
             <img src="zdzhcj1g31.jpeg" alt="Book promotion activities">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="5">
             <img src="t6yndfb3l5.jpeg" alt="Behind the scenes">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="6">
             <img src="afpya2t7g6.jpeg" alt="Author lifestyle">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="7">
             <img src="phfwwuk3a3.jpeg" alt="Writing inspiration">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="8">
             <img src="budxjzdh8h.jpeg" alt="Author moments">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="9">
             <img src="2dxbiwx8j4.jpeg" alt="Author professional photo">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="10">
             <img src="5qaui8tw3k.jpeg" alt="Writing workspace">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="11">
             <img src="fk610fee7p.jpeg" alt="Book promotion event">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="12">
             <img src="k8rwt9bq8h.jpeg" alt="Author lifestyle moment">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="13">
             <img src="kd0i7tsz8c.jpeg" alt="Behind the scenes writing">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="14">
             <img src="m3p0crfza6.jpeg" alt="Author portrait">
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="15">
             <img src="nwzkdrh8qe.jpeg" alt="Book reading session">
             <div class="gallery-overlay">
               <p>Reading Session</p>
             </div>
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="16">
             <img src="oxw6vjv8io.jpeg" alt="Author event photo">
             <div class="gallery-overlay">
               <p>Event Photography</p>
             </div>
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="17">
             <img src="2iax7rj1l8.png" alt="Author branding material">
             <div class="gallery-overlay">
               <p>Branding Material</p>
             </div>
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="18">
             <img src="qmdi609a5z.png" alt="Creative content">
             <div class="gallery-overlay">
               <p>Creative Content</p>
             </div>
           </div>
-          <div class="gallery-item">
+          <div class="gallery-item" data-index="19">
             <img src="ygqzv7v9gz.jpeg" alt="Author inspiration">
-            <div class="gallery-overlay">
-              <p>Inspiration Moment</p>
-            </div>
+          </div>
+          <div class="gallery-item" data-index="20">
+            <img src="IMG_0112.jpeg" alt="Gallery photo IMG_0112">
+          </div>
+          <div class="gallery-item" data-index="21">
+            <img src="IMG_0409.jpeg" alt="Gallery photo IMG_0409">
+          </div>
+          <div class="gallery-item" data-index="22">
+            <img src="IMG_0691.jpeg" alt="Gallery photo IMG_0691">
+          </div>
+          <div class="gallery-item" data-index="23">
+            <img src="IMG_2615.jpeg" alt="Gallery photo IMG_2615">
+          </div>
+          <div class="gallery-item" data-index="24">
+            <img src="IMG_2618.jpeg" alt="Gallery photo IMG_2618">
+          </div>
+          <div class="gallery-item" data-index="25">
+            <img src="IMG_2655.jpeg" alt="Gallery photo IMG_2655">
+          </div>
+          <div class="gallery-item" data-index="26">
+            <img src="IMG_2658.jpeg" alt="Gallery photo IMG_2658">
+          </div>
+          <div class="gallery-item" data-index="27">
+            <img src="IMG_2923.jpeg" alt="Gallery photo IMG_2923">
+          </div>
+          <div class="gallery-item" data-index="28">
+            <img src="IMG_3500.jpeg" alt="Gallery photo IMG_3500">
+          </div>
+          <div class="gallery-item" data-index="29">
+            <img src="IMG_3501.jpeg" alt="Gallery photo IMG_3501">
           </div>
 
         </div>
       </div>
     </section>
+
+    <div class="lightbox" id="galleryLightbox" aria-hidden="true" role="dialog">
+      <div class="lightbox-content">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close gallery">&times;</button>
+        <div class="lightbox-nav">
+          <button class="lightbox-arrow" id="lightboxPrev" aria-label="Previous image">&#8249;</button>
+          <button class="lightbox-arrow" id="lightboxNext" aria-label="Next image">&#8250;</button>
+        </div>
+        <img src="" alt="Expanded gallery item" class="lightbox-image" id="lightboxImage">
+        <div class="lightbox-thumbnails" id="lightboxThumbnails"></div>
+      </div>
+    </div>
 
     <!-- Character Profiles Section -->
     <section id="characters" class="section fade-in-section">
@@ -2155,6 +2360,107 @@
         closeMerchandiseModal();
       }
     });
+
+    // Gallery lightbox functionality
+    (function () {
+      const galleryItems = Array.from(document.querySelectorAll('#galleryGrid .gallery-item img'));
+      const lightbox = document.getElementById('galleryLightbox');
+      const lightboxImage = document.getElementById('lightboxImage');
+      const lightboxThumbnails = document.getElementById('lightboxThumbnails');
+      const prevBtn = document.getElementById('lightboxPrev');
+      const nextBtn = document.getElementById('lightboxNext');
+      const closeBtn = document.getElementById('lightboxClose');
+      let currentIndex = 0;
+
+      const galleryData = galleryItems.map((img, index) => ({
+        src: img.getAttribute('src'),
+        alt: img.getAttribute('alt'),
+        index
+      }));
+
+      function openLightbox(index) {
+        currentIndex = index;
+        updateLightbox();
+        lightbox.classList.add('is-visible');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('is-visible');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = 'auto';
+      }
+
+      function updateLightbox() {
+        const item = galleryData[currentIndex];
+        lightboxImage.src = item.src;
+        lightboxImage.alt = item.alt;
+        updateThumbnails();
+      }
+
+      function updateThumbnails() {
+        lightboxThumbnails.innerHTML = '';
+        galleryData.forEach((item) => {
+          const thumb = document.createElement('button');
+          thumb.className = 'lightbox-thumb';
+          thumb.setAttribute('type', 'button');
+          thumb.dataset.index = item.index;
+          thumb.innerHTML = `<img src="${item.src}" alt="${item.alt}">`;
+          if (item.index === currentIndex) {
+            thumb.classList.add('is-active');
+          }
+          thumb.addEventListener('click', () => {
+            currentIndex = item.index;
+            updateLightbox();
+          });
+          lightboxThumbnails.appendChild(thumb);
+        });
+      }
+
+      function showNext() {
+        currentIndex = (currentIndex + 1) % galleryData.length;
+        updateLightbox();
+      }
+
+      function showPrev() {
+        currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
+        updateLightbox();
+      }
+
+      galleryItems.forEach((img, index) => {
+        img.addEventListener('click', () => openLightbox(index));
+        img.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            openLightbox(index);
+          }
+        });
+        img.setAttribute('tabindex', '0');
+      });
+
+      closeBtn.addEventListener('click', closeLightbox);
+      prevBtn.addEventListener('click', showPrev);
+      nextBtn.addEventListener('click', showNext);
+
+      lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (!lightbox.classList.contains('is-visible')) return;
+        if (event.key === 'Escape') {
+          closeLightbox();
+        } else if (event.key === 'ArrowRight') {
+          showNext();
+        } else if (event.key === 'ArrowLeft') {
+          showPrev();
+        }
+      });
+
+      updateThumbnails();
+    })();
 
     // Newsletter form functionality
     function handleNewsletterSubmission(formId, nameId, emailId, successId, additionalData = {}) {
