@@ -2,3 +2,8 @@ name = "maj-author-backend"
 main = "src/index.ts"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "maj-author"
+database_id = "maj-author"

@@ -1,27 +1,26 @@
--- MAJ the Author Website Backend Schema
--- This file contains all database table definitions
+-- Youware Backend Schema for MAJ the Author Website
+-- Update this file whenever you modify database structure
 
--- Newsletter subscribers table
-CREATE TABLE newsletter_subscribers (
+-- Supporter wall entries submitted from the website
+CREATE TABLE IF NOT EXISTS supporters (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  encrypted_yw_id TEXT NOT NULL,
   name TEXT NOT NULL,
+  comment TEXT NOT NULL,
+  image_key TEXT,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+) STRICT;
+
+CREATE INDEX IF NOT EXISTS idx_supporters_created_at ON supporters(created_at DESC);
+
+-- Newsletter subscribers captured from "Stay in the Loop"
+CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
   email TEXT NOT NULL UNIQUE,
-  subscription_preferences TEXT, -- JSON string for book_updates, merchandise, events
-  subscribed_at TEXT DEFAULT CURRENT_TIMESTAMP,
-  is_active INTEGER DEFAULT 1,
-  source TEXT DEFAULT 'website' -- 'website', 'merchandise_modal', etc.
+  interests TEXT,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
 ) STRICT;
 
--- Contact form submissions table
-CREATE TABLE contact_submissions (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  encrypted_yw_id TEXT NOT NULL,
-  name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  subject TEXT NOT NULL,
-  message TEXT NOT NULL,
-  submitted_at TEXT DEFAULT CURRENT_TIMESTAMP,
-  status TEXT DEFAULT 'new', -- 'new', 'read', 'responded'
-  response_sent_at TEXT NULL
-) STRICT;
+CREATE INDEX IF NOT EXISTS idx_newsletter_email ON newsletter_subscribers(email);
+CREATE INDEX IF NOT EXISTS idx_newsletter_created_at ON newsletter_subscribers(created_at DESC);
