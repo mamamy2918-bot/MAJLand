@@ -150,11 +150,11 @@
       top: 0;
       left: 0;
       right: 0;
-      background: rgba(10, 10, 10, 0.95);
+      background: rgba(10, 10, 10, 0.92);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-soft);
       z-index: 1000;
-      padding: 16px 0;
+      padding: 12px 0;
       transition: all 0.3s ease;
     }
 
@@ -165,6 +165,8 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 24px;
+      gap: 16px;
+      position: relative;
     }
 
     .logo {
@@ -175,49 +177,127 @@
       text-decoration: none;
       opacity: 0;
       animation: fadeInUp 0.8s ease forwards 0.2s;
+      white-space: nowrap;
     }
 
-    .nav-links {
+    .nav-tabs {
       display: flex;
-      gap: 32px;
+      gap: 12px;
+      align-items: center;
       list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-weight: 400;
-      font-size: 0.95rem;
+      margin: 0;
+      padding: 4px 6px;
+      flex-wrap: nowrap;
+      max-width: 100%;
+      justify-content: flex-end;
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
       position: relative;
-      transition: all 0.3s ease;
-      opacity: 0;
-      animation: fadeInUp 0.8s ease forwards;
     }
 
-    .nav-links a:nth-child(1) { animation-delay: 0.3s; }
-    .nav-links a:nth-child(2) { animation-delay: 0.4s; }
-    .nav-links a:nth-child(3) { animation-delay: 0.5s; }
-    .nav-links a:nth-child(4) { animation-delay: 0.6s; }
-    .nav-links a:nth-child(5) { animation-delay: 0.7s; }
-    .nav-links a:nth-child(6) { animation-delay: 0.8s; }
+    .nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
 
-    .nav-links a::after {
+    .nav-tabs.is-overflowing::before,
+    .nav-tabs.is-overflowing::after {
       content: '';
       position: absolute;
-      bottom: -4px;
+      top: 0;
+      bottom: 0;
+      width: 48px;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .nav-tabs.is-overflowing::before {
       left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--gold-primary);
-      transition: width 0.3s ease;
+      background: linear-gradient(90deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0) 100%);
     }
 
-    .nav-links a:hover {
-      color: var(--gold-primary);
+    .nav-tabs.is-overflowing::after {
+      right: 0;
+      background: linear-gradient(270deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0) 100%);
     }
 
-    .nav-links a:hover::after {
-      width: 100%;
+    .nav-tabs.is-overflowing.has-left::before {
+      opacity: 1;
+    }
+
+    .nav-tabs.is-overflowing.has-right::after {
+      opacity: 1;
+    }
+
+    .nav-tab {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(35, 35, 35, 0.7);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      animation: fadeInUp 0.6s ease forwards 0.3s;
+      white-space: nowrap;
+    }
+
+    .nav-tabs.scrolled {
+      background: rgba(15, 15, 15, 0.85);
+      padding: 6px 10px;
+      border-radius: 999px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .nav-tab:hover,
+    .nav-tab:focus-visible {
+      color: var(--text-primary);
+      border-color: rgba(212, 175, 55, 0.45);
+      background: rgba(212, 175, 55, 0.18);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .nav-tab.active {
+      color: var(--text-primary);
+      border-color: rgba(212, 175, 55, 0.65);
+      background: rgba(212, 175, 55, 0.22);
+      box-shadow: 0 8px 24px rgba(212, 175, 55, 0.25);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .nav-toggle:focus-visible {
+      outline: 2px solid var(--gold-primary);
+      outline-offset: 4px;
     }
 
     /* Hero Section */
@@ -1244,8 +1324,51 @@
 
     /* Responsive Design */
     @media (max-width: 768px) {
-      .nav-links {
+      .nav-tabs {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 24px;
         display: none;
+        flex-direction: column;
+        background: rgba(10, 10, 10, 0.95);
+        padding: 12px;
+        border-radius: 16px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+        width: min(260px, calc(100vw - 32px));
+        max-height: 70vh;
+        overflow-y: auto;
+        outline: none;
+      }
+
+        .nav-tabs.open {
+        display: flex;
+      }
+
+      .nav-tab {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: transparent;
+        border: 1px solid transparent;
+        animation: none;
+        opacity: 1;
+      }
+
+      .nav-tab:hover {
+        background: rgba(212, 175, 55, 0.1);
+      }
+
+      .nav-tabs.scrolled {
+        background: rgba(10, 10, 10, 0.95);
+        padding: 12px;
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      .nav-toggle {
+        display: block;
       }
 
       .hero {
@@ -1381,6 +1504,12 @@
     .fade-in-section.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .no-observer .fade-in-section,
+    .no-observer .fade-in-section.visible {
+      opacity: 1;
+      transform: none;
     }
 
     /* Character Profiles Styles */
@@ -1627,15 +1756,18 @@
   <nav>
     <div class="nav-container">
       <a href="#" class="logo">MAJ the Author</a>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#book">Book</a></li>
-        <li><a href="#characters">Characters</a></li>
-        <li><a href="#pictures">Gallery</a></li>
-        <li><a href="#supporters">Supporters</a></li>
-        <li><a href="#newsletter">Newsletter</a></li>
-        <li><a href="#follow">Connect</a></li>
-      </ul>
+      <div class="nav-controls">
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navTabs" aria-label="Toggle navigation">☰</button>
+        <ul class="nav-tabs" id="navTabs" tabindex="-1" aria-label="Section navigation tabs">
+          <li><a class="nav-tab" href="#about" data-target="about">About</a></li>
+          <li><a class="nav-tab" href="#book" data-target="book">Book</a></li>
+          <li><a class="nav-tab" href="#characters" data-target="characters">Characters</a></li>
+          <li><a class="nav-tab" href="#pictures" data-target="pictures">Gallery</a></li>
+          <li><a class="nav-tab" href="#supporters" data-target="supporters">Supporters</a></li>
+          <li><a class="nav-tab" href="#newsletter" data-target="newsletter">Newsletter</a></li>
+          <li><a class="nav-tab" href="#follow" data-target="follow">Connect</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
@@ -1727,7 +1859,7 @@
                 <p class="book-price">$20.00</p>
                 <p class="book-signed-copy">Order directly through MAJ to receive a signed copy.</p>
               </div>
-              <a href="https://www.amazon.com/dp/B0CWLQDBSW/ref=cm_sw_r_cso_sms_bks_apin_dp_4T4AZQQTSMFZR5WR15KZ?cspi=63f1afeb001caf291e7e7ceaa2e621eb0a1b168e3c579a66843730fcf5eb9b5240d8d41ddbf0b45ab5ee6741f2c7e7e4caf924c9510801be8fe2a199d8faa359" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Order on Amazon</a>
+              <a href="https://www.amazon.com/dp/B0CWLQDBSW" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Order on Amazon</a>
               <a href="https://cash.app/$MAJtheAuthor92" class="btn btn-primary" target="_blank" rel="noopener noreferrer">💳 Cash App</a>
               <a href="https://venmo.com/u/MAJtheauthor" class="btn btn-primary" target="_blank" rel="noopener noreferrer">💸 Venmo</a>
               <a href="#" class="btn btn-secondary" onclick="openExcerptModal()">Read Excerpt</a>
@@ -2060,14 +2192,14 @@
               </div>
 
               <button type="submit">Share your tribute</button>
-              <p class="supporter-form-note">Submissions are stored locally on your device for now. A permanent wall is coming soon.</p>
+              <p class="supporter-form-note">Your tribute publishes instantly and stays on the Community Highlights wall for everyone. We moderate occasionally to keep the space welcoming.</p>
               <div id="supporterFormMessage" class="supporter-form-message"></div>
             </form>
           </div>
 
           <div class="supporter-wall">
             <h3>Community Highlights</h3>
-            <p class="supporter-wall-intro">Explore memories and heartfelt notes from readers moved by "Anticipation". New tributes appear instantly and stay on this permanent wall for everyone to celebrate.</p>
+            <p class="supporter-wall-intro">Explore memories and heartfelt notes from readers moved by "Anticipation". Every approved tribute now lives in the shared cloud wall so anyone can revisit the love any time they stop by.</p>
             <div id="supporterList" class="supporter-list">
               <div class="supporter-empty">No tributes yet. Be the first to share something special!</div>
             </div>
@@ -2143,41 +2275,145 @@
 
   <script>
     // Intersection Observer for scroll animations
+    const navTabs = Array.from(document.querySelectorAll('.nav-tab'));
+    const navToggle = document.getElementById('navToggle');
+    const navTabsContainer = document.getElementById('navTabs');
+    const navControls = document.querySelector('.nav-controls');
+
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
+    function setActiveTab(id) {
+      navTabs.forEach(tab => {
+        if (tab.dataset.target === id) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
         }
       });
-    }, observerOptions);
+    }
 
-    // Observe all fade-in sections
-    document.querySelectorAll('.fade-in-section').forEach(section => {
-      observer.observe(section);
+    function closeNavMenu() {
+      if (!navTabsContainer) return;
+      navTabsContainer.classList.remove('open');
+      if (navToggle) {
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    navToggle?.addEventListener('click', () => {
+      const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', String(!expanded));
+      navTabsContainer?.classList.toggle('open');
+      if (!expanded) {
+        navTabsContainer?.focus({ preventScroll: true });
+      }
     });
 
-    // Smooth scroll for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+    navTabsContainer?.addEventListener('keydown', (event) => {
+      if (!navTabsContainer.classList.contains('open')) return;
+      if (event.key === 'Escape') {
+        closeNavMenu();
+        navToggle?.focus();
+      }
+    });
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+            if (entry.target.id) {
+              setActiveTab(entry.target.id);
+            }
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.fade-in-section').forEach(section => {
+        if (!section.classList.contains('visible')) {
+          observer.observe(section);
+        }
+      });
+    } else {
+      document.body.classList.add('no-observer');
+      document.querySelectorAll('.fade-in-section').forEach(section => {
+        section.classList.add('visible');
+      });
+    }
+
+    // Smooth scroll for navigation links & active state
+    navTabs.forEach(tab => {
+      tab.addEventListener('click', (event) => {
+        event.preventDefault();
+        const targetId = tab.getAttribute('href');
+        const target = targetId ? document.querySelector(targetId) : null;
         if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setActiveTab(tab.dataset.target);
+          closeNavMenu();
         }
       });
     });
+
+    document.addEventListener('click', (event) => {
+      if (!navTabsContainer?.classList.contains('open')) return;
+      if (!navControls?.contains(event.target)) {
+        closeNavMenu();
+      }
+    });
+
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY > 80;
+      if (scrolled) {
+        navTabsContainer?.classList.add('scrolled');
+      } else {
+        navTabsContainer?.classList.remove('scrolled');
+      }
+
+      if (!navTabsContainer) return;
+      const maxScroll = navTabsContainer.scrollWidth - navTabsContainer.clientWidth;
+      if (maxScroll > 4) {
+        navTabsContainer.classList.add('is-overflowing');
+        const currentScroll = navTabsContainer.scrollLeft;
+        if (currentScroll > 2) {
+          navTabsContainer.classList.add('has-left');
+        } else {
+          navTabsContainer.classList.remove('has-left');
+        }
+        if (currentScroll < maxScroll - 2) {
+          navTabsContainer.classList.add('has-right');
+        } else {
+          navTabsContainer.classList.remove('has-right');
+        }
+      } else {
+        navTabsContainer.classList.remove('is-overflowing', 'has-left', 'has-right');
+      }
+    });
+
+    function updateOverflowState() {
+      if (!navTabsContainer) return;
+      const maxScroll = navTabsContainer.scrollWidth - navTabsContainer.clientWidth;
+      if (maxScroll > 4) {
+        navTabsContainer.classList.add('is-overflowing');
+        const currentScroll = navTabsContainer.scrollLeft;
+        navTabsContainer.classList.toggle('has-left', currentScroll > 2);
+        navTabsContainer.classList.toggle('has-right', currentScroll < maxScroll - 2);
+      } else {
+        navTabsContainer.classList.remove('is-overflowing', 'has-left', 'has-right');
+      }
+    }
+
+    navTabsContainer?.addEventListener('scroll', updateOverflowState);
+    window.addEventListener('resize', updateOverflowState);
+    requestAnimationFrame(updateOverflowState);
 
     // Supporter submission functionality
     (function () {
-      const SUPPORTER_STORAGE_KEY = 'supporterTributes';
+      const API_BASE = (window.ywConfig?.backend?.apiBase || 'https://backend.youware.com/api').replace(/\/$/, '');
       const supporterForm = document.getElementById('supporterForm');
       const supporterName = document.getElementById('supporterName');
       const supporterComment = document.getElementById('supporterComment');
@@ -2188,26 +2424,9 @@
       const previewPlaceholder = document.createElement('div');
       previewPlaceholder.className = 'supporter-preview-placeholder';
       previewPlaceholder.textContent = 'Your image preview will appear here if you include one.';
-      let currentImageData = null;
-
-      function getStoredSupporters() {
-        try {
-          const stored = localStorage.getItem(SUPPORTER_STORAGE_KEY);
-          return stored ? JSON.parse(stored) : [];
-        } catch (error) {
-          console.error('Failed to read supporter submissions', error);
-          return [];
-        }
-      }
-
-      function saveSupporters(entries) {
-        try {
-          localStorage.setItem(SUPPORTER_STORAGE_KEY, JSON.stringify(entries));
-        } catch (error) {
-          console.error('Failed to save supporter submissions', error);
-          showFormMessage('error', 'We could not save your tribute locally. Please ensure storage is available.');
-        }
-      }
+      let supporterImageFile = null;
+      let currentSupporters = [];
+      let isSubmittingSupporter = false;
 
       function showFormMessage(type, text) {
         supporterMessage.textContent = text;
@@ -2224,7 +2443,7 @@
       function resetPreview() {
         supporterPreview.innerHTML = '';
         supporterPreview.appendChild(previewPlaceholder.cloneNode(true));
-        currentImageData = null;
+        supporterImageFile = null;
       }
 
       function updatePreviewWithImage(dataUrl) {
@@ -2266,8 +2485,8 @@
 
         const reader = new FileReader();
         reader.onload = (event) => {
-          currentImageData = event.target.result;
-          updatePreviewWithImage(currentImageData);
+          supporterImageFile = file;
+          updatePreviewWithImage(event.target.result);
         };
         reader.onerror = () => {
           supporterFile.value = '';
@@ -2277,11 +2496,26 @@
         reader.readAsDataURL(file);
       }
 
+      async function loadSupporters() {
+        try {
+          const response = await fetch(`${API_BASE}/supporters`);
+          if (!response.ok) {
+            const text = await response.text();
+            throw new Error(text || `Load supporters failed with ${response.status}`);
+          }
+          const data = await response.json();
+          currentSupporters = Array.isArray(data.supporters) ? data.supporters : [];
+          renderSupporters();
+        } catch (error) {
+          console.error('Failed to load supporters:', error);
+          showFormMessage('error', 'We could not load community highlights. Please refresh and try again.');
+        }
+      }
+
       function renderSupporters() {
-        const entries = getStoredSupporters();
         supporterList.innerHTML = '';
 
-        if (!entries.length) {
+        if (!currentSupporters.length) {
           for (let i = 0; i < 3; i += 1) {
             const emptyCard = document.createElement('article');
             emptyCard.className = 'supporter-card placeholder';
@@ -2299,16 +2533,15 @@
           return;
         }
 
-        const latestEntries = entries.slice(0, 24);
-        latestEntries.forEach((entry) => {
+        currentSupporters.forEach((entry) => {
           const card = document.createElement('article');
           card.className = 'supporter-card fade-in-section visible';
 
-          if (entry.imageData) {
+          if (entry.imageUrl) {
             const imageWrapper = document.createElement('div');
             imageWrapper.className = 'supporter-card-image';
             const img = document.createElement('img');
-            img.src = entry.imageData;
+            img.src = entry.imageUrl;
             img.alt = `${entry.name}'s tribute photo`;
             imageWrapper.appendChild(img);
             card.appendChild(imageWrapper);
@@ -2325,8 +2558,8 @@
           nameEl.textContent = entry.name;
 
           const timeEl = document.createElement('time');
-          timeEl.dateTime = entry.timestamp;
-          timeEl.textContent = new Date(entry.timestamp).toLocaleDateString(undefined, {
+          timeEl.dateTime = entry.createdAt;
+          timeEl.textContent = new Date(entry.createdAt).toLocaleDateString(undefined, {
             month: 'short',
             day: 'numeric',
             year: 'numeric'
@@ -2347,13 +2580,61 @@
         });
       }
 
+      async function presignImageUpload(file) {
+        const response = await fetch(`${API_BASE}/supporters/upload-url`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: file.name, contentType: file.type })
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(text || `Presign failed with ${response.status}`);
+        }
+
+        return response.json();
+      }
+
+      async function uploadImageToR2(uploadUrl, requiredHeaders = {}, file) {
+        const headers = new Headers();
+        Object.entries(requiredHeaders).forEach(([key, value]) => {
+          headers.set(key, value);
+        });
+
+        const response = await fetch(uploadUrl, {
+          method: 'PUT',
+          headers,
+          body: file,
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(text || `Image upload failed with ${response.status}`);
+        }
+      }
+
+      async function fetchSupporterSubmit(payload) {
+        const response = await fetch(`${API_BASE}/supporters`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(text || `Submit supporter failed with ${response.status}`);
+        }
+      }
+
       supporterFile.addEventListener('change', (event) => {
         const file = event.target.files && event.target.files[0];
         handleFileSelection(file);
       });
 
-      supporterForm.addEventListener('submit', (event) => {
+      supporterForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+        if (isSubmittingSupporter) return;
+
         const name = supporterName.value.trim();
         const comment = supporterComment.value.trim();
 
@@ -2362,27 +2643,34 @@
           return;
         }
 
-        const newEntry = {
-          id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
-          name,
-          comment,
-          imageData: currentImageData,
-          timestamp: new Date().toISOString()
-        };
+        isSubmittingSupporter = true;
+        supporterForm.classList.add('is-loading');
 
-        const existing = getStoredSupporters();
-        existing.unshift(newEntry);
-        const limited = existing.slice(0, 24);
-        saveSupporters(limited);
-        renderSupporters();
+        try {
+          let imageKey = null;
 
-        supporterForm.reset();
-        resetPreview();
-        showFormMessage('success', 'Thank you! Your tribute is now visible.');
+          if (supporterImageFile) {
+            const presign = await presignImageUpload(supporterImageFile);
+            await uploadImageToR2(presign.uploadUrl || presign.url, presign.requiredHeaders, supporterImageFile);
+            imageKey = presign.imageKey || presign.key;
+          }
+
+          await fetchSupporterSubmit({ name, comment, imageKey });
+          supporterForm.reset();
+          resetPreview();
+          await loadSupporters();
+          showFormMessage('success', 'Thank you! Your tribute is now visible for everyone.');
+        } catch (error) {
+          console.error('Supporter submission failed:', error);
+          showFormMessage('error', error instanceof Error ? error.message : 'We could not submit your spotlight. Please try again.');
+        } finally {
+          isSubmittingSupporter = false;
+          supporterForm.classList.remove('is-loading');
+        }
       });
 
       resetPreview();
-      renderSupporters();
+      loadSupporters();
     })();
 
     // Add scroll effect to navigation
@@ -2542,86 +2830,113 @@
     })();
 
     // Newsletter form functionality
-    function handleNewsletterSubmission(formId, nameId, emailId, successId, additionalData = {}) {
-      document.getElementById(formId).addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const name = document.getElementById(nameId).value;
-        const email = document.getElementById(emailId).value;
-        
-        if (name && email) {
-          // Store in localStorage for future reference
-          const subscriber = {
-            name: name,
-            email: email,
-            timestamp: new Date().toISOString(),
-            ...additionalData
-          };
-          
-          // Get existing subscribers or create new array
-          let subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
-          subscribers.push(subscriber);
-          localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
-          
-          // Show success message
-          document.getElementById(successId).style.display = 'block';
-          
-          // Reset form
-          this.reset();
-          
-          // Hide success message after 5 seconds
+    async function submitNewsletter(payload) {
+      const response = await fetch(`${API_BASE}/newsletter`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || `Newsletter signup failed with ${response.status}`);
+      }
+    }
+
+    function handleNewsletterSubmission(formId, successId, payloadBuilder) {
+      const form = document.getElementById(formId);
+      const successMessage = document.getElementById(successId);
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (!form.reportValidity()) {
+          return;
+        }
+
+        form.classList.add('is-loading');
+
+        try {
+          const payload = payloadBuilder();
+          await submitNewsletter(payload);
+          successMessage.style.display = 'block';
+          form.reset();
+          if (typeof payloadBuilder.reset === 'function') {
+            payloadBuilder.reset();
+          }
           setTimeout(() => {
-            document.getElementById(successId).style.display = 'none';
+            successMessage.style.display = 'none';
           }, 5000);
+        } catch (error) {
+          console.error('Newsletter signup failed:', error);
+          alert(error instanceof Error ? error.message : 'We could not save your subscription. Please try again.');
+        } finally {
+          form.classList.remove('is-loading');
         }
       });
     }
 
+    function requireNameEmail(name, email) {
+      if (!name) {
+        throw new Error('Please add your name before submitting.');
+      }
+      if (!email) {
+        throw new Error('Please add a valid email address.');
+      }
+    }
+
     // Initialize merchandise newsletter form
-    handleNewsletterSubmission('merchandiseNewsletterForm', 'merchName', 'merchEmail', 'newsletterSuccess', { type: 'merchandise' });
+    handleNewsletterSubmission(
+      'merchandiseNewsletterForm',
+      'newsletterSuccess',
+      Object.assign(
+        () => {
+          const name = document.getElementById('merchName').value.trim();
+          const email = document.getElementById('merchEmail').value.trim();
+          requireNameEmail(name, email);
+          return {
+            name,
+            email,
+            interests: ['merchandise'],
+          };
+        },
+        {
+          reset() {
+            // no-op placeholder for custom reset behaviour
+          },
+        }
+      )
+    );
 
     // Initialize main newsletter form
-    document.getElementById('mainNewsletterForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const name = document.getElementById('mainName').value;
-      const email = document.getElementById('mainEmail').value;
-      const interests = [];
-      
-      if (document.getElementById('bookUpdates').checked) interests.push('books');
-      if (document.getElementById('merchUpdates').checked) interests.push('merchandise');
-      if (document.getElementById('eventUpdates').checked) interests.push('events');
-      
-      if (name && email && interests.length > 0) {
-        // Store in localStorage
-        const subscriber = {
-          name: name,
-          email: email,
-          interests: interests,
-          timestamp: new Date().toISOString(),
-          type: 'main'
-        };
-        
-        let subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers') || '[]');
-        subscribers.push(subscriber);
-        localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
-        
-        // Show success message
-        document.getElementById('mainNewsletterSuccess').style.display = 'block';
-        
-        // Reset form
-        this.reset();
-        // Re-check merchandise by default
-        document.getElementById('merchUpdates').checked = true;
-        
-        // Hide success message after 5 seconds
-        setTimeout(() => {
-          document.getElementById('mainNewsletterSuccess').style.display = 'none';
-        }, 5000);
-      } else if (interests.length === 0) {
-        alert('Please select at least one type of update to receive.');
-      }
-    });
+    handleNewsletterSubmission(
+      'mainNewsletterForm',
+      'mainNewsletterSuccess',
+      Object.assign(
+        () => {
+          const name = document.getElementById('mainName').value.trim();
+          const email = document.getElementById('mainEmail').value.trim();
+          const interests = [];
+
+          if (document.getElementById('bookUpdates').checked) interests.push('books');
+          if (document.getElementById('merchUpdates').checked) interests.push('merchandise');
+          if (document.getElementById('eventUpdates').checked) interests.push('events');
+
+          if (!interests.length) {
+            throw new Error('Please select at least one type of update to receive.');
+          }
+
+          requireNameEmail(name, email);
+
+          return { name, email, interests };
+        },
+        {
+          reset() {
+            document.getElementById('merchUpdates').checked = true;
+          },
+        }
+      )
+    );
 
     // Load AI SDK Scripts
     const aiScript1 = document.createElement('script');
